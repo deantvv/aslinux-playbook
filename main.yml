@@ -1,0 +1,14 @@
+---
+- hosts: all
+  become: true
+  roles:
+    - role: systemd-timesyncd
+      timesync_ntp_hosts:
+        - time1.facebook.com
+        - time2.facebook.com
+        - time3.facebook.com
+        - time4.facebook.com
+        - time5.facebook.com
+      timesync_fallback_ntp_hosts:
+        - time.cloudflare.com
+        - time.google.com
