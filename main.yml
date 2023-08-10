@@ -12,3 +12,5 @@
       timesync_fallback_ntp_hosts:
         - time.cloudflare.com
         - time.google.com
+    - role: openssh
+
