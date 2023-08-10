@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "aslinux-playbook"
+version = "0.1.0"
+description = ""
+authors = ["Dean Li <deantvv@gmail.cc>"]
+readme = "README.md"
+packages = [{include = "aslinux_playbook"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+ansible = "^8.2.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
