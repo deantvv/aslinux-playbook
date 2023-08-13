@@ -13,4 +13,8 @@
         - time.cloudflare.com
         - time.google.com
     - role: openssh
-
+    - role: "nickjj.docker"
+      tags: ["docker"]
+      vars:
+        docker__compose_v2_version: "2.20.3"
+        docker__pip_docker_compose_state: "absent"
