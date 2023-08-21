@@ -12,9 +12,29 @@
       timesync_fallback_ntp_hosts:
         - time.cloudflare.com
         - time.google.com
-    - role: openssh
     - role: "nickjj.docker"
       tags: ["docker"]
       vars:
         docker__compose_v2_version: "2.20.3"
         docker__pip_docker_compose_state: "absent"
+    - role: "willshersystems.sshd"
+      tags: ["sshd"]
+      vars:
+        sshd_enable: true
+        sshd_skip_defaults: true
+        sshd_allow_reload: true
+        sshd_main_config_file: /etc/ssh/sshd_config
+        sshd_config_file: /etc/ssh/sshd_config.d/00-custom.conf
+        sshd:
+          KexAlgorithms: "curve25519-sha256@libssh.org,ecdh-sha2-nistp521,ecdh-sha2-nistp384,ecdh-sha2-nistp256,diffie-hellman-group-exchange-sha256"
+          Ciphers: "chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr"
+          MACs: "hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com"
+          HostKey:
+            - "/etc/ssh/ssh_host_ed25519_key"
+          HostCertificate: "/etc/ssh/ssh_host_ed25519_key-cert.pub"
+
+          AuthenticationMethods: "publickey"
+          LogLevel: "VERBOSE"
+          PermitRootLogin: "No"
+          # Log sftp level file access (read/write/etc.) that would not be easily logged otherwise.
+          Subsystem: "sftp  /usr/lib/ssh/sftp-server -f AUTHPRIV -l INFO"
