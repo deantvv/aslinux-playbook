@@ -12,11 +12,6 @@
       timesync_fallback_ntp_hosts:
         - time.cloudflare.com
         - time.google.com
-    - role: "nickjj.docker"
-      tags: ["docker"]
-      vars:
-        docker__compose_v2_version: "2.20.3"
-        docker__pip_docker_compose_state: "absent"
     - role: "willshersystems.sshd"
       tags: ["sshd"]
       vars:
@@ -37,4 +32,15 @@
           LogLevel: "VERBOSE"
           PermitRootLogin: "No"
           # Log sftp level file access (read/write/etc.) that would not be easily logged otherwise.
-          Subsystem: "sftp  /usr/lib/ssh/sftp-server -f AUTHPRIV -l INFO"
+          Subsystem: "sftp  internal-sftp -f AUTHPRIV -l INFO"
+          # Used by fish init
+          AcceptEnv:
+            LANG
+            LC_*
+            TMUX
+    - role: "nickjj.docker"
+      tags: ["docker"]
+      vars:
+        docker__compose_v2_version: "2.20.3"
+        docker__pip_docker_compose_state: "absent"
+
